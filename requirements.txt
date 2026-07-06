@@ -1,0 +1,10 @@
+Django>=5.0,<6.0
+requests>=2.31
+numpy>=1.26
+
+# PDF text extraction for Bursa quarterly reports
+pdfplumber>=0.11
+
+# Optional: run models locally instead of the HF Inference API
+# transformers>=4.40
+# torch>=2.2

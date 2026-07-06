@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+db.sqlite3
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Data artifacts
+data/pdfs/
+data/raw/
+*.pdf
+
+# Java / Spring Boot
+gateway/target/
+*.class
+*.jar
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.DS_Store
