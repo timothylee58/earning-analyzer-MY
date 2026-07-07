@@ -30,9 +30,9 @@ cues, or `apps/signals/fls.py` cue lists.
 
    ```bash
    python3 -c "
-   import django, os; os.environ['DJANGO_SETTINGS_MODULE']='config.settings'; django.setup()
+   import django, os, sys; os.environ['DJANGO_SETTINGS_MODULE']='config.settings'; django.setup()
    from apps.nlp.router import route_document
-   english = open('/dev/stdin').read()
+   english = sys.stdin.read()
    for r in route_document(english):
        assert r.model == 'finbert', f'FLIPPED: {r.text[:60]} (ratio={r.bm_ratio:.2f})'
    print('OK: all English sentences still route to finbert')

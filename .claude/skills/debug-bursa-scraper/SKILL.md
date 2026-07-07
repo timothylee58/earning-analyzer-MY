@@ -27,13 +27,13 @@ One request per stage, saved to files; all further iteration is offline:
 ```bash
 mkdir -p /tmp/bursa-debug
 python3 - <<'EOF'
-import json, requests
+import requests
 from apps.scraper.bursa import LIST_URL, HEADERS, QUARTERLY_CATEGORY
 r = requests.get(LIST_URL, params={"ann_type": "company", "cat": QUARTERLY_CATEGORY,
                                    "page": 1, "per_page": 5},
                  headers=HEADERS, timeout=30)
 print("status:", r.status_code, "content-type:", r.headers.get("content-type"))
-open("/tmp/bursa-debug/listing.raw", "w").write(r.text)
+open("/tmp/bursa-debug/listing.raw", "wb").write(r.content)
 EOF
 ```
 

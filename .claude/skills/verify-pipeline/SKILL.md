@@ -29,12 +29,13 @@ JSON boundary):
 ```bash
 python3 manage.py migrate --run-syncdb -v0
 python3 manage.py runserver 8000 >/dev/null 2>&1 &
+SRV_PID=$!
 sleep 3
 curl -s -X POST localhost:8000/api/analyze \
   -H 'Content-Type: application/json' \
   -d '{"text": "Revenue grew 15% year on year. Prestasi kumpulan dijangka kukuh, boleh tahan lah this quarter. The Group expects margins to improve in FY2027."}' \
   | python3 -m json.tool
-pkill -f runserver
+kill $SRV_PID
 ```
 
 ## Step 3 — Assert these facts on the response (all must hold)

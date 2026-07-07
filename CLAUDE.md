@@ -220,9 +220,9 @@ comment, state the block explicitly in the PR body — never claim it works.
 ## Commands
 
 ```bash
-python manage.py test                      # full offline suite (the gate)
-python manage.py test apps.nlp             # one app
-python manage.py runserver                 # API on :8000
-python manage.py migrate                   # sqlite dev db
-python manage.py scrape_bursa --pages 1 --analyze   # live scrape (network!)
+python3 manage.py test                      # full offline suite (the gate)
+python3 manage.py test apps.nlp             # one app
+python3 manage.py runserver                 # API on :8000
+python3 manage.py migrate                   # sqlite dev db
+python3 manage.py scrape_bursa --pages 1 --analyze   # live scrape (network!)
 ```
