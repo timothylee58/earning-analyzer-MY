@@ -5,6 +5,7 @@ When no HF_API_TOKEN is configured (local dev, CI) the clients fall back to a
 deterministic lexicon scorer so the rest of the pipeline stays testable.
 """
 
+from functools import lru_cache
 import logging
 
 import requests
@@ -15,7 +16,7 @@ from .router import tokenize
 
 logger = logging.getLogger(__name__)
 
-API_URL = "https://api-inference.huggingface.co/models/{model}"
+API_URL = "https://router.huggingface.co/hf-inference/models/{model}"
 TIMEOUT = 30
 
 # cardiffnlp/twitter-xlm-roberta-base-sentiment labels
@@ -23,7 +24,7 @@ _XLMR_LABEL_MAP = {"LABEL_0": "negative", "LABEL_1": "neutral", "LABEL_2": "posi
 
 
 class SentimentResult(dict):
-    """{'label': str, 'score': float, 'model': str, 'source': 'hf'|'lexicon'}"""
+    """{'label': str, 'score': float, 'model': str, 'source': 'hf'|'local'|'lexicon'}"""
 
 
 def _lexicon_score(text: str, model: str) -> SentimentResult:
@@ -45,7 +46,7 @@ def _hf_request(model: str, text: str) -> SentimentResult | None:
         resp = requests.post(
             API_URL.format(model=model),
             headers=headers,
-            json={"inputs": text[:2000], "options": {"wait_for_model": True}},
+            json={"inputs": text[:2000]},
             timeout=TIMEOUT,
         )
         resp.raise_for_status()
@@ -66,6 +67,13 @@ def _hf_request(model: str, text: str) -> SentimentResult | None:
         return None
 
 
+@lru_cache(maxsize=2)
+def _local_classifier(model: str):
+    from transformers import pipeline
+
+    return pipeline("text-classification", model=model, framework="pt", device=-1)
+
+
 def score_sentence(text: str, model_name: str) -> SentimentResult:
     """Score one sentence with the given routed model.
 
@@ -73,6 +81,11 @@ def score_sentence(text: str, model_name: str) -> SentimentResult:
     lexicon scorer when the API is unavailable or unconfigured.
     """
     hf_model = settings.FINBERT_MODEL if model_name == "finbert" else settings.XLMR_MODEL
+    if settings.USE_LOCAL_INFERENCE:
+        prediction = _local_classifier(hf_model)(text, truncation=True, max_length=512)[0]
+        raw_label = prediction["label"]
+        label = _XLMR_LABEL_MAP.get(raw_label, raw_label).lower()
+        return SentimentResult(label=label, score=float(prediction["score"]), model=hf_model, source="local")
     if settings.HF_API_TOKEN:
         result = _hf_request(hf_model, text)
         if result is not None:

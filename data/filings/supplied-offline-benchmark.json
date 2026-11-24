@@ -1,0 +1,182 @@
+{
+  "source": "User-supplied excerpts, paraphrases and figures. Original PDFs unverified.",
+  "bursa_9m2026": {
+    "patami_rm_m": 214.8,
+    "patami_yoy_pct": 13.5,
+    "q3_patami_rm_m": 70.2,
+    "q3_prior_patami_rm_m": 63.8,
+    "q3_patami_yoy_pct": 10,
+    "operating_revenue_rm_m": 620.8,
+    "operating_revenue_yoy_pct": 19.8,
+    "operating_expenses_rm_m": 349,
+    "operating_expenses_yoy_pct": 23.4,
+    "adv_omt_rm_bn": 3.2,
+    "adv_yoy_pct": 27.6,
+    "ipos": 47,
+    "ipo_proceeds_rm_bn": 6.1,
+    "derivatives_adc_contracts": 113120,
+    "adc_yoy_pct": 19.3,
+    "non_trading_revenue_rm_m": 229.4,
+    "non_trading_revenue_yoy_pct": 19.3
+  },
+  "melati": {
+    "reference": "FRA-27102026-00003",
+    "date_announced": "2026-10-27",
+    "period_end": "2026-08-31",
+    "columns": [
+      "revenue_rm_thousands",
+      "pbt_rm_thousands",
+      "net_profit_rm_thousands"
+    ],
+    "q4_2026": [
+      83770,
+      2438,
+      177
+    ],
+    "q4_2025": [
+      87530,
+      2250,
+      775
+    ],
+    "fy2026": [
+      267503,
+      5142,
+      658
+    ],
+    "fy2025": [
+      152287,
+      2878,
+      1119
+    ],
+    "q4_eps_sen": 0.15,
+    "q4_dividend_sen": 1.0
+  },
+  "cases": {
+    "Bursa EN historical": {
+      "request": {
+        "text": "Bursa Malaysia Berhad (\"Bursa Malaysia\" or \"the Exchange\") delivered a solid performance for the nine months ended 30 September 2026 (\"9M2026\"), underpinned by stronger market activity, healthy fundraising momentum and focused execution of the Exchange's strategic priorities. Profit After Tax, Zakat and Minority Interest (\"PATAMI\") of RM70.2 million for the third quarter ended 30 September 2026 (\"3Q2026\") recorded an increase of 10.0% from RM63.8 million in the corresponding quarter last year."
+      },
+      "response": {
+        "sentiment": {
+          "label": "positive",
+          "score": 1.0,
+          "n_sentences": 2,
+          "model_mix": {
+            "finbert": 2
+          }
+        },
+        "sentences": [
+          {
+            "text": "Bursa Malaysia Berhad (\"Bursa Malaysia\" or \"the Exchange\") delivered a solid performance for the nine months ended 30 September 2026 (\"9M2026\"), underpinned by stronger market activity, healthy fundraising momentum and focused execution of the Exchange's strategic priorities.",
+            "model": "finbert",
+            "label": "positive",
+            "score": 0.6,
+            "source": "lexicon"
+          },
+          {
+            "text": "Profit After Tax, Zakat and Minority Interest (\"PATAMI\") of RM70.2 million for the third quarter ended 30 September 2026 (\"3Q2026\") recorded an increase of 10.0% from RM63.8 million in the corresponding quarter last year.",
+            "model": "finbert",
+            "label": "positive",
+            "score": 0.7,
+            "source": "lexicon"
+          }
+        ],
+        "forward_looking_statements": []
+      }
+    },
+    "Bursa EN outlook": {
+      "request": {
+        "text": "Bursa Malaysia expects domestic economic fundamentals to remain supportive of capital-raising and investment activity, with Bank Negara Malaysia projecting 2026 GDP growth between 4% and 5%. However, geopolitical uncertainties and tighter global financial conditions are causing investors to adopt a more cautious stance toward capital allocation. Looking ahead, the Exchange will continue focusing on initiatives to broaden market participation and strengthen infrastructure resilience."
+      },
+      "response": {
+        "sentiment": {
+          "label": "positive",
+          "score": 0.375,
+          "n_sentences": 3,
+          "model_mix": {
+            "finbert": 3
+          }
+        },
+        "sentences": [
+          {
+            "text": "Bursa Malaysia expects domestic economic fundamentals to remain supportive of capital-raising and investment activity, with Bank Negara Malaysia projecting 2026 GDP growth between 4% and 5%.",
+            "model": "finbert",
+            "label": "positive",
+            "score": 0.6,
+            "source": "lexicon"
+          },
+          {
+            "text": "However, geopolitical uncertainties and tighter global financial conditions are causing investors to adopt a more cautious stance toward capital allocation.",
+            "model": "finbert",
+            "label": "neutral",
+            "score": 0.5,
+            "source": "lexicon"
+          },
+          {
+            "text": "Looking ahead, the Exchange will continue focusing on initiatives to broaden market participation and strengthen infrastructure resilience.",
+            "model": "finbert",
+            "label": "neutral",
+            "score": 0.5,
+            "source": "lexicon"
+          }
+        ],
+        "forward_looking_statements": [
+          "Bursa Malaysia expects domestic economic fundamentals to remain supportive of capital-raising and investment activity, with Bank Negara Malaysia projecting 2026 GDP growth between 4% and 5%.",
+          "Looking ahead, the Exchange will continue focusing on initiatives to broaden market participation and strengthen infrastructure resilience."
+        ]
+      }
+    },
+    "Bursa BM outlook": {
+      "request": {
+        "text": "Bursa Malaysia menjangkakan asas ekonomi domestik kekal menyokong aktiviti pengumpulan modal dan pelaburan selaras dengan unjuran pertumbuhan KDNK 4% hingga 5% bagi 2026, namun ketidaktentuan geopolitik menyebabkan pelabur lebih berhati-hati dalam menentukan peruntukan modal."
+      },
+      "response": {
+        "sentiment": {
+          "label": "neutral",
+          "score": 0.0,
+          "n_sentences": 1,
+          "model_mix": {
+            "xlm-roberta": 1
+          }
+        },
+        "sentences": [
+          {
+            "text": "Bursa Malaysia menjangkakan asas ekonomi domestik kekal menyokong aktiviti pengumpulan modal dan pelaburan selaras dengan unjuran pertumbuhan KDNK 4% hingga 5% bagi 2026, namun ketidaktentuan geopolitik menyebabkan pelabur lebih berhati-hati dalam menentukan peruntukan modal.",
+            "model": "xlm-roberta",
+            "label": "neutral",
+            "score": 0.5,
+            "source": "lexicon"
+          }
+        ],
+        "forward_looking_statements": [
+          "Bursa Malaysia menjangkakan asas ekonomi domestik kekal menyokong aktiviti pengumpulan modal dan pelaburan selaras dengan unjuran pertumbuhan KDNK 4% hingga 5% bagi 2026, namun ketidaktentuan geopolitik menyebabkan pelabur lebih berhati-hati dalam menentukan peruntukan modal."
+        ]
+      }
+    },
+    "Melati EN segment summary": {
+      "request": {
+        "text": "Construction segment PBT jumped to RM17.47 million on RM187.25 million revenue, while property development recorded a pre-tax loss of RM1.96 million."
+      },
+      "response": {
+        "sentiment": {
+          "label": "negative",
+          "score": -1.0,
+          "n_sentences": 1,
+          "model_mix": {
+            "finbert": 1
+          }
+        },
+        "sentences": [
+          {
+            "text": "Construction segment PBT jumped to RM17.47 million on RM187.25 million revenue, while property development recorded a pre-tax loss of RM1.96 million.",
+            "model": "finbert",
+            "label": "negative",
+            "score": 0.6,
+            "source": "lexicon"
+          }
+        ],
+        "forward_looking_statements": []
+      }
+    }
+  }
+}

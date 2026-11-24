@@ -31,6 +31,21 @@ RATE_LIMIT_SECONDS = 1.0
 _ATTACHMENT_RE = re.compile(r"href=\"(/misc/V3/[^\"]+\.pdf)\"", re.IGNORECASE)
 
 
+class BursaAccessError(requests.RequestException):
+    """The remote site requires interactive or approved access."""
+
+
+def _check_response(resp):
+    if resp.status_code == 403 or resp.headers.get("cf-mitigated") == "challenge":
+        raise BursaAccessError(
+            "Bursa denied automated access (HTTP 403/challenge). "
+            "Download a report using your browser or the company's investor-relations "
+            "site, then run: python manage.py analyze_pdf /path/to/report.pdf --offline. "
+            "Live scraping requires permitted automated access."
+        )
+    resp.raise_for_status()
+
+
 def fetch_announcements(page: int = 1, per_page: int = 20) -> list[dict]:
     """Return raw announcement rows for quarterly reports (newest first)."""
     params = {
@@ -40,9 +55,14 @@ def fetch_announcements(page: int = 1, per_page: int = 20) -> list[dict]:
         "per_page": per_page,
     }
     resp = requests.get(LIST_URL, params=params, headers=HEADERS, timeout=30)
-    resp.raise_for_status()
-    payload = resp.json()
-    return payload.get("data", [])
+    _check_response(resp)
+    try:
+        payload = resp.json()
+    except ValueError as exc:
+        raise BursaAccessError("Bursa returned HTML/non-JSON instead of an announcement listing.") from exc
+    if not isinstance(payload, dict) or not isinstance(payload.get("data"), list):
+        raise BursaAccessError("Bursa listing schema changed: expected a data list.")
+    return payload["data"]
 
 
 def parse_row(row: list | dict) -> dict:
@@ -70,7 +90,7 @@ def parse_row(row: list | dict) -> dict:
 def resolve_pdf_url(announcement_url: str) -> str | None:
     """Fetch the announcement detail page and find the attached PDF."""
     resp = requests.get(announcement_url, headers=HEADERS, timeout=30)
-    resp.raise_for_status()
+    _check_response(resp)
     m = _ATTACHMENT_RE.search(resp.text)
     return BASE + m.group(1) if m else None
 
@@ -83,7 +103,9 @@ def download_pdf(pdf_url: str, dest_dir: Path | None = None) -> Path:
     if dest.exists():
         return dest
     resp = requests.get(pdf_url, headers=HEADERS, timeout=60)
-    resp.raise_for_status()
+    _check_response(resp)
+    if not resp.content.startswith(b"%PDF-"):
+        raise BursaAccessError("Bursa download was not a PDF; nothing was saved.")
     dest.write_bytes(resp.content)
     time.sleep(RATE_LIMIT_SECONDS)
     return dest

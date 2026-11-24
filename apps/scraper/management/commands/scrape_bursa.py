@@ -4,7 +4,8 @@ Usage:
     python manage.py scrape_bursa --pages 2 --analyze
 """
 
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
+import requests
 from django.utils.dateparse import parse_datetime
 
 from apps.nlp.ensemble import analyze_document
@@ -22,6 +23,12 @@ class Command(BaseCommand):
         parser.add_argument("--analyze", action="store_true")
 
     def handle(self, *args, **options):
+        try:
+            self._scrape(options)
+        except requests.RequestException as exc:
+            raise CommandError(str(exc)) from exc
+
+    def _scrape(self, options):
         new = 0
         for page in range(1, options["pages"] + 1):
             for raw in bursa.fetch_announcements(page=page):

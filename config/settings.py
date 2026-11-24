@@ -44,3 +44,6 @@ XLMR_MODEL = os.environ.get(
 
 # Directory for downloaded Bursa PDFs
 PDF_DIR = BASE_DIR / "data" / "pdfs"
+
+# Hosted inference remains the default. Local inference loads models on demand.
+USE_LOCAL_INFERENCE = os.environ.get("USE_LOCAL_INFERENCE", "0") == "1"
